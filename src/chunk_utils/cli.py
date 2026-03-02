@@ -126,4 +126,5 @@ def main() -> None:
         for name, value in cog_metadata(args.input):
             sys.stdout.write(f"{name}: {value}\n")
     elif args.command == "extract-tile":
-        extract_tile(args.input, args.tile_index, args.output)
+        output = args.output or args.input.parent / str(args.tile_index)
+        extract_tile(args.input, args.tile_index, output)
