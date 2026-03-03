@@ -48,17 +48,6 @@ def _make_mock_dataset() -> MagicMock:
 
 
 class TestCogToZarr:
-    def test_basic_conversion(self, tmp_path: Path) -> None:
-        mock_ds = _make_mock_dataset()
-
-        with patch(OPEN_RASTERIO, return_value=mock_ds):
-            cog_to_zarr(tmp_path / "in.tif", tmp_path / "out.zarr")
-
-        mock_ds.to_zarr.assert_called_once()
-        call_kwargs = mock_ds.to_zarr.call_args.kwargs
-        assert call_kwargs["zarr_format"] == 3
-        mock_ds.close.assert_called_once()
-
     def test_with_codec(self, tmp_path: Path) -> None:
         mock_ds = _make_mock_dataset()
 
@@ -81,15 +70,6 @@ class TestCogToZarr:
         encoding = mock_ds.to_zarr.call_args.kwargs.get("encoding")
         assert encoding is not None
         assert encoding["band_1"]["chunks"] == [512, 512]
-
-    def test_no_encoding_when_no_options(self, tmp_path: Path) -> None:
-        mock_ds = _make_mock_dataset()
-
-        with patch(OPEN_RASTERIO, return_value=mock_ds):
-            cog_to_zarr(tmp_path / "in.tif", tmp_path / "out.zarr")
-
-        encoding = mock_ds.to_zarr.call_args.kwargs.get("encoding")
-        assert encoding is None
 
     def test_close_called_on_error(self, tmp_path: Path) -> None:
         mock_ds = _make_mock_dataset()

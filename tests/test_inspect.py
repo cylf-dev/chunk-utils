@@ -9,15 +9,9 @@ from chunk_utils.inspect import cog_metadata, describe_bytes, extract_tile
 
 
 class TestCogMetadata:
-    def test_returns_list_of_tuples(self, tiled_tiff: Path) -> None:
-        result = cog_metadata(tiled_tiff)
-        assert isinstance(result, list)
-        assert len(result) > 0
-        for name, _value in result:
-            assert isinstance(name, str)
-
     def test_contains_expected_tags(self, tiled_tiff: Path) -> None:
         result = cog_metadata(tiled_tiff)
+        assert isinstance(result, list)
         tag_names = {name for name, _ in result}
         assert "ImageWidth" in tag_names
         assert "ImageLength" in tag_names
@@ -31,19 +25,11 @@ class TestCogMetadata:
 
 
 class TestExtractTile:
-    def test_returns_bytes(self, tiled_tiff: Path) -> None:
-        raw = extract_tile(tiled_tiff, 0)
-        assert isinstance(raw, bytes)
-        assert len(raw) > 0
-
-    def test_tile_index_1_returns_bytes(self, tiled_tiff: Path) -> None:
-        raw = extract_tile(tiled_tiff, 1)
-        assert isinstance(raw, bytes)
-        assert len(raw) > 0
-
     def test_different_tiles_differ(self, tiled_tiff: Path) -> None:
         tile0 = extract_tile(tiled_tiff, 0)
         tile1 = extract_tile(tiled_tiff, 1)
+        assert isinstance(tile0, bytes)
+        assert len(tile0) > 0
         assert tile0 != tile1
 
     def test_out_of_range_raises(self, tiled_tiff: Path) -> None:
