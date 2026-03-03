@@ -29,8 +29,15 @@ chunk-utils download https://example.com/image.tif
 ```bash
 chunk-utils to-zarr image.tif image.zarr
 chunk-utils to-zarr image.tif image.zarr --codec zstd --level 3
+chunk-utils to-zarr image.tif image.zarr --codec numcodecs.zlib --level 9
 chunk-utils to-zarr image.tif image.zarr --chunks 1024 1024
 ```
+
+The `--codec` flag accepts any codec name from zarr's codec registry:
+
+- Zarr-native codecs: `zstd`, `gzip`, `blosc`, etc.
+- Numcodecs-wrapped codecs: `numcodecs.zlib`, `numcodecs.zstd`, etc.
+- Use `none` to disable compression.
 
 ### Print TIFF metadata
 
@@ -68,7 +75,12 @@ describe_bytes(tile_bytes)
 # Convert a COG to Zarr v3
 cog_to_zarr(Path("image.tif"), Path("image.zarr"))
 cog_to_zarr(Path("image.tif"), Path("image.zarr"), codec="zstd", level=3)
+cog_to_zarr(Path("image.tif"), Path("image.zarr"), codec="numcodecs.zlib", level=9)
 ```
+
+## Codec compatibility with chonkle
+
+[chonkle](https://github.com/NASA-IMPACT/chonkle) decodes chunks using numcodecs exclusively. If the Zarr output will be decoded by chonkle, use `numcodecs.*` codec names (e.g. `numcodecs.zlib`, `numcodecs.zstd`) to ensure the encoded chunks are compatible.
 
 ## Acknowledgements
 

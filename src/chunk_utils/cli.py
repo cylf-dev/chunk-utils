@@ -55,9 +55,9 @@ def main() -> None:
     )
     cz_parser.add_argument(
         "--codec",
-        choices=["zstd", "zlib", "none"],
         default=None,
-        help="Compression codec for the data variable.",
+        help="Compression codec (any name from zarr's codec registry, e.g. "
+        '"zstd", "gzip", "numcodecs.zlib"). Use "none" for no compression.',
     )
     cz_parser.add_argument(
         "--level",
