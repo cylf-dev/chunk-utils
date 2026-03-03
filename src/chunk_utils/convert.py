@@ -39,15 +39,8 @@ def _make_compressor(codec: str, level: int | None) -> list | None:
     if codec == "none":
         return None
 
-    if codec == "zlib":
-        from zarr.codecs.numcodecs._codecs import Zlib
+    from zarr.registry import get_codec_class
 
-        return [Zlib(level=level if level is not None else 5)]
-
-    if codec == "zstd":
-        from zarr.codecs import ZstdCodec
-
-        return [ZstdCodec(level=level if level is not None else 0)]
-
-    msg = f"Unknown codec: {codec}"
-    raise ValueError(msg)
+    codec_class = get_codec_class(codec)
+    kwargs = {"level": level} if level is not None else {}
+    return [codec_class(**kwargs)]
