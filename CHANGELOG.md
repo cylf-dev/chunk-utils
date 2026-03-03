@@ -5,3 +5,10 @@ All notable changes to this project will be documented in this file. The format 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v0.1.0] - 2026-03-03
+
+Initial release.
+
+[Unreleased]: https://github.com/cylf-dev/chunk-utils/compare/v0.1.0...main
+[v0.1.0]: https://github.com/cylf-dev/chunk-utils/releases/tag/v0.1.0
