@@ -3,7 +3,7 @@ name = "chunk-utils"
 description = "Extract and convert test data chunks from Cloud Optimized GeoTIFFs"
 readme = "README.md"
 requires-python = ">=3.13"
-version = "0.0.0"
+dynamic = ["version"]
 dependencies = [
     "rioxarray",
     "tifffile",
@@ -15,8 +15,14 @@ dependencies = [
 chunk-utils = "chunk_utils.cli:main"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/chunk_utils/__version__.py"
 
 [tool.ruff.lint]
 # https://docs.astral.sh/ruff/rules/
