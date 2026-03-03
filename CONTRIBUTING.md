@@ -23,6 +23,12 @@ Set up pre-commit hooks:
 uv run pre-commit install
 ```
 
+## Running tests
+
+```bash
+uv run pytest tests/ -v
+```
+
 ## Linting and formatting
 
 Ruff is used for both linting and formatting:
